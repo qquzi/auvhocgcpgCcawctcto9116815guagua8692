@@ -1,0 +1,20 @@
+# You don't need it
+*.py*
+*.sh
+*.o
+*.out
+*.log
+*.tmp
+*log*
+/src/*test*.lua
+/src/*example*
+
+*Private*
+*private*
+
+/docs
+*test*
+/src/Deobfuscator
+
+# Ignore IDE files
+*vscode
