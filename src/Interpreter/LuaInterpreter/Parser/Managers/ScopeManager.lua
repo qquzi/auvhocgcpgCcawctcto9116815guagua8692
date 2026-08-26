@@ -1,35 +1,29 @@
---[[
-  Name: ScopeManager.lua
-  Date: 2024-04-28
---]]
-
---* Dependencies *--
-local Helpers = require("Helpers/Helpers")
-
---* Imports *--
-local insert = table.insert
-
---* ScopeManager *--
 local ScopeManager = {}
 
 function ScopeManager:pushScope(isFunctionScope)
-  local newScope = {
-    locals = {},
-    parent = self.currentScope,
-    isFunctionScope = isFunctionScope
-  }
+    local newScope = {
+        id = #self.scopes + 1,
+        locals = {},
+        parent = self.currentScope,
+        isFunctionScope = isFunctionScope == true
+    }
 
-  self.currentScope = newScope
-  self.scopes[#self.scopes + 1] = newScope
+    self.currentScope = newScope
+    self.scopes[#self.scopes + 1] = newScope
+
+    return newScope
 end
 
 function ScopeManager:popScope()
-  if self.currentScope then
-    self.currentScope = self.currentScope.parent
+    if not self.currentScope then
+        error("Cannot pop scope, no scope to pop.")
+    end
+
+    local scope = self.currentScope
+    self.currentScope = scope.parent
     self.scopes[#self.scopes] = nil
-    return
-  end
-  error("Cannot pop scope, no scope to pop.")
+
+    return scope
 end
 
 return ScopeManager
